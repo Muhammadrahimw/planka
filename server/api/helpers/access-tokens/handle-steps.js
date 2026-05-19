@@ -56,40 +56,7 @@ module.exports = {
       }
     }
 
-    if (!sails.hooks.terms.isSignatureValid(inputs.user.termsSignature)) {
-      const { token: pendingToken, payload: pendingTokenPayload } =
-        sails.helpers.utils.createJwtToken(
-          AccessTokenSteps.ACCEPT_TERMS,
-          undefined,
-          PENDING_TOKEN_EXPIRES_IN,
-        );
-
-      const session = await sails.helpers.sessions.createOne.with({
-        values: {
-          pendingToken,
-          userId: inputs.user.id,
-          remoteAddress: inputs.remoteAddress,
-          userAgent: inputs.request.headers['user-agent'],
-        },
-        withHttpOnlyToken: inputs.withHttpOnlyToken,
-      });
-
-      if (session.httpOnlyToken && !inputs.request.isSocket) {
-        sails.helpers.utils.setHttpOnlyTokenCookie(
-          session.httpOnlyToken,
-          pendingTokenPayload,
-          inputs.response,
-        );
-      }
-
-      throw {
-        termsAcceptanceRequired: {
-          pendingToken,
-          message: 'Terms acceptance required',
-          step: AccessTokenSteps.ACCEPT_TERMS,
-        },
-      };
-    }
+    // Terms acceptance disabled.
 
     const { token: accessToken, payload: accessTokenPayload } = sails.helpers.utils.createJwtToken(
       inputs.user.id,
