@@ -9,8 +9,9 @@ services:
     restart: on-failure
     volumes:
       - ./server:/app
+      - /app/node_modules
     ports:
-      - 1337:1337
+      - 13370:1337
     environment:
       - BASE_URL=http://localhost:1337
       - DATABASE_URL=postgresql://postgres@postgres/planka
@@ -35,13 +36,13 @@ services:
 
       # The default application language used as a fallback when a user's language is not set.
       # This language is also used for per-board notifications.
-      # - DEFAULT_LANGUAGE=en-US
+      - DEFAULT_LANGUAGE=uz-UZ
 
       # Do not comment out DEFAULT_ADMIN_EMAIL if you want to prevent this user from being edited/deleted
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo
-      # - DEFAULT_ADMIN_PASSWORD=demo
-      # - DEFAULT_ADMIN_NAME=Demo Demo
-      # - DEFAULT_ADMIN_USERNAME=demo
+      - DEFAULT_ADMIN_EMAIL=demo@demo.demo
+      - DEFAULT_ADMIN_PASSWORD=demo
+      - DEFAULT_ADMIN_NAME=Demo Demo
+      - DEFAULT_ADMIN_USERNAME=demo
 
       # Set to true to show more detailed authentication error messages.
       # It should not be enabled without a rate limiter for security reasons.
@@ -102,6 +103,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - default
+      - shared-net
 
   planka-client:
     image: planka-dev
@@ -110,10 +114,13 @@ services:
     restart: on-failure
     volumes:
       - ./client:/app
+      - /app/node_modules
     ports:
       - 3000:3000
     environment:
       - PROXY_TARGET=http://planka-server:1337
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=500
 
   postgres:
     image: postgres:16-alpine
@@ -136,3 +143,7 @@ services:
 
 volumes:
   db-data:
+
+networks:
+  shared-net:
+    external: true
