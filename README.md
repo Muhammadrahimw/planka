@@ -14,6 +14,62 @@
 
 </div>
 
+## Kengmakon Development Setup
+
+This is a Kengmakon-branded fork. To run locally:
+
+### Prerequisites
+- Docker Desktop (with WSL2 backend on Windows)
+- Git
+
+### Quick start
+
+```bash
+git clone https://github.com/Muhammadrahimw/planka.git
+cd planka
+docker compose -f docker-compose-dev.yml up -d
+```
+
+First start takes ~3 minutes (npm install). Subsequent starts ~10 seconds.
+
+- **Frontend:** http://localhost:3000
+- **Backend API:** http://localhost:13370
+
+> **Note:** Port `13370` is used instead of the upstream `1337` because Windows reserves `1337`. Adjust the host port in `docker-compose-dev.yml` if you don't have that constraint.
+
+### Default admin
+
+The admin account is created on first start from env vars in `docker-compose-dev.yml`:
+
+```
+DEFAULT_ADMIN_USERNAME=muhammadrahim
+DEFAULT_ADMIN_PASSWORD=1234
+```
+
+**Change these in `docker-compose-dev.yml` before sharing the instance.** Login uses **username only** (email is profile-only in this fork).
+
+### Common commands
+
+```bash
+# Stop everything (data preserved)
+docker compose -f docker-compose-dev.yml down
+
+# Restart just the backend after env changes
+docker compose -f docker-compose-dev.yml up -d --force-recreate planka-server
+
+# Follow server logs
+docker compose -f docker-compose-dev.yml logs -f planka-server
+
+# Reset the database (destructive)
+docker compose -f docker-compose-dev.yml down -v
+```
+
+### Branches
+- `master` — Kengmakon rebrand: logo, favicon, login UI, username-only login
+- `feature/ultima-sso` — adds Ultima OIDC SSO + role mapping (requires Ultima running on the same machine)
+
+---
+
 ## Key Features
 
 - **Collaborative Kanban Boards:** Create projects, boards, lists, cards, and manage tasks with an intuitive drag-and-drop interface

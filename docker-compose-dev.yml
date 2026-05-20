@@ -103,9 +103,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    networks:
-      - default
-      - shared-net
 
   planka-client:
     image: planka-dev
@@ -143,7 +140,3 @@ services:
 
 volumes:
   db-data:
-
-networks:
-  shared-net:
-    external: true
