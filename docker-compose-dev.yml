@@ -116,7 +116,7 @@ services:
       - ./client:/app
       - /app/node_modules
     ports:
-      - 3000:3000
+      - 3003:3000
     environment:
       - PROXY_TARGET=http://planka-server:1337
       - CHOKIDAR_USEPOLLING=true
@@ -146,4 +146,3 @@ volumes:
 
 networks:
   shared-net:
-    external: true
