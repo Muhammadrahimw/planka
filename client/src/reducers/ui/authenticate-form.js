@@ -10,7 +10,7 @@ import Paths from '../../constants/Paths';
 
 const initialState = {
   data: {
-    emailOrUsername: '',
+    username: '',
     password: '',
   },
   isSubmitting: false,

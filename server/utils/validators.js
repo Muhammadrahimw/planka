@@ -33,10 +33,8 @@ const isIds = (values) => _.every(values, isId);
 
 const isPassword = (value) => zxcvbn(value).score >= 2; // TODO: move to config
 
-const isEmailOrUsername = (value) =>
-  value.includes('@')
-    ? validator.isEmail(value)
-    : value.length >= 3 && value.length <= 32 && USERNAME_REGEX.test(value);
+const isUsername = (value) =>
+  value.length >= 3 && value.length <= 32 && USERNAME_REGEX.test(value);
 
 const isDueDate = (value) => moment(value, moment.ISO_8601, true).isValid();
 
@@ -70,7 +68,7 @@ module.exports = {
   isId,
   isIds,
   isPassword,
-  isEmailOrUsername,
+  isUsername,
   isDueDate,
   isStopwatch,
 };

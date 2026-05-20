@@ -19,14 +19,14 @@
  *           schema:
  *             type: object
  *             required:
- *               - emailOrUsername
+ *               - username
  *               - password
  *             properties:
- *               emailOrUsername:
+ *               username:
  *                 type: string
  *                 maxLength: 256
- *                 description: Email address or username of the user
- *                 example: john.doe@example.com
+ *                 description: Username of the user
+ *                 example: john_doe
  *               password:
  *                 type: string
  *                 maxLength: 256
@@ -107,15 +107,15 @@
 
 const bcrypt = require('bcrypt');
 
-const { isEmailOrUsername } = require('../../../utils/validators');
+const { isUsername } = require('../../../utils/validators');
 const { getRemoteAddress } = require('../../../utils/remote-address');
 
 const Errors = {
   INVALID_CREDENTIALS: {
     invalidCredentials: 'Invalid credentials',
   },
-  INVALID_EMAIL_OR_USERNAME: {
-    invalidEmailOrUsername: 'Invalid email or username',
+  INVALID_USERNAME: {
+    invalidUsername: 'Invalid username',
   },
   INVALID_PASSWORD: {
     invalidPassword: 'Invalid password',
@@ -130,10 +130,10 @@ const Errors = {
 
 module.exports = {
   inputs: {
-    emailOrUsername: {
+    username: {
       type: 'string',
       maxLength: 256,
-      custom: isEmailOrUsername,
+      custom: isUsername,
       required: true,
     },
     password: {
@@ -150,7 +150,7 @@ module.exports = {
     invalidCredentials: {
       responseType: 'unauthorized',
     },
-    invalidEmailOrUsername: {
+    invalidUsername: {
       responseType: 'unauthorized',
     },
     invalidPassword: {
@@ -173,15 +173,13 @@ module.exports = {
     }
 
     const remoteAddress = getRemoteAddress(this.req);
-    const user = await User.qm.getOneActiveByEmailOrUsername(inputs.emailOrUsername);
+    const user = await User.qm.getOneActiveByUsername(inputs.username);
 
     if (!user) {
-      sails.log.warn(
-        `Invalid email or username: "${inputs.emailOrUsername}"! (IP: ${remoteAddress})`,
-      );
+      sails.log.warn(`Invalid username: "${inputs.username}"! (IP: ${remoteAddress})`);
 
       throw sails.config.custom.showDetailedAuthErrors
-        ? Errors.INVALID_EMAIL_OR_USERNAME
+        ? Errors.INVALID_USERNAME
         : Errors.INVALID_CREDENTIALS;
     }
 

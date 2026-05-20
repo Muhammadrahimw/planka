@@ -56,7 +56,7 @@
  *                 items:
  *                   type: string
  *                 example: [
- *                   "\"emailOrUsername\" is required, but it was not defined.",
+ *                   "\"username\" is required, but it was not defined.",
  *                   "\"password\" is required, but it was not defined."
  *                 ]
  *               message:

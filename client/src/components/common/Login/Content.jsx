@@ -3,7 +3,6 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import isEmail from 'validator/lib/isEmail';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,7 +34,7 @@ const createMessage = (error, isDebug) => {
         type: 'error',
         content: 'common.invalidCredentials',
       };
-    case 'Invalid email or username':
+    case 'Invalid username':
       return {
         type: 'error',
         content: 'common.invalidEmailOrUsername',
@@ -106,7 +105,7 @@ const Content = React.memo(() => {
 
   const [data, handleFieldChange, setData] = useForm(() => {
     const initialData = {
-      emailOrUsername: '',
+      username: '',
       password: '',
       ...defaultData,
     };
@@ -133,17 +132,17 @@ const Content = React.memo(() => {
   const message = useMemo(() => createMessage(error, isOidcDebug), [error, isOidcDebug]);
   const [focusPasswordFieldState, focusPasswordField] = useToggle();
 
-  const [emailOrUsernameFieldRef, handleEmailOrUsernameFieldRef] = useNestedRef('inputRef');
+  const [usernameFieldRef, handleUsernameFieldRef] = useNestedRef('inputRef');
   const [passwordFieldRef, handlePasswordFieldRef] = useNestedRef('inputRef');
 
   const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
-      emailOrUsername: data.emailOrUsername.trim(),
+      username: data.username.trim(),
     };
 
-    if (!isEmail(cleanData.emailOrUsername) && !isUsername(cleanData.emailOrUsername)) {
-      emailOrUsernameFieldRef.current.select();
+    if (!isUsername(cleanData.username)) {
+      usernameFieldRef.current.select();
       return;
     }
 
@@ -153,7 +152,7 @@ const Content = React.memo(() => {
     }
 
     dispatch(entryActions.authenticate(cleanData));
-  }, [dispatch, data, emailOrUsernameFieldRef, passwordFieldRef]);
+  }, [dispatch, data, usernameFieldRef, passwordFieldRef]);
 
   const handleAuthenticateWithOidcClick = useCallback(() => {
     dispatch(entryActions.authenticateWithOidc());
@@ -165,16 +164,16 @@ const Content = React.memo(() => {
 
   useEffect(() => {
     if (!isOidcEnforced) {
-      emailOrUsernameFieldRef.current.focus();
+      usernameFieldRef.current.focus();
     }
-  }, [isOidcEnforced, emailOrUsernameFieldRef]);
+  }, [isOidcEnforced, usernameFieldRef]);
 
   useDidUpdate(() => {
     if (wasSubmitting && !isSubmitting && error) {
       switch (error.message) {
         case 'Invalid credentials':
-        case 'Invalid email or username':
-          emailOrUsernameFieldRef.current.select();
+        case 'Invalid username':
+          usernameFieldRef.current.select();
 
           break;
         case 'Invalid password':
@@ -233,12 +232,12 @@ const Content = React.memo(() => {
                 <>
                   <Form size="large" onSubmit={handleSubmit}>
                     <div className={styles.inputWrapper}>
-                      <div className={styles.inputLabel}>{t('common.emailOrUsername')}</div>
+                      <div className={styles.inputLabel}>{t('common.username')}</div>
                       <Input
                         fluid
-                        ref={handleEmailOrUsernameFieldRef}
-                        name="emailOrUsername"
-                        value={data.emailOrUsername}
+                        ref={handleUsernameFieldRef}
+                        name="username"
+                        value={data.username}
                         maxLength={256}
                         readOnly={isSubmitting}
                         className={styles.input}

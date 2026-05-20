@@ -83,14 +83,11 @@ const getOneByEmail = (email) =>
     email: email.toLowerCase(),
   });
 
-const getOneActiveByEmailOrUsername = (emailOrUsername) => {
-  const fieldName = emailOrUsername.includes('@') ? 'email' : 'username';
-
-  return User.findOne({
-    [fieldName]: emailOrUsername.toLowerCase(),
+const getOneActiveByUsername = (username) =>
+  User.findOne({
+    username: username.toLowerCase(),
     isDeactivated: false,
   });
-};
 
 const getOneActiveByApiKeyHash = (apiKeyHash) =>
   User.findOne({
@@ -198,7 +195,7 @@ module.exports = {
   getAll,
   getOneById,
   getOneByEmail,
-  getOneActiveByEmailOrUsername,
+  getOneActiveByUsername,
   getOneActiveByApiKeyHash,
   updateOne,
   deleteOne,
