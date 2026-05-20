@@ -20,7 +20,7 @@ import { isUsername } from '../../../utils/validator';
 import AccessTokenSteps from '../../../constants/AccessTokenSteps';
 import TermsModal from './TermsModal';
 
-import logo from '../../../assets/images/logo.png';
+import logo from '../../../assets/images/logo-kengmakon-horizontal.svg';
 
 import styles from './Content.module.scss';
 
@@ -201,14 +201,16 @@ const Content = React.memo(() => {
           <div className={styles.login}>
             <div className={styles.form}>
               <div className={styles.logoWrapper}>
-                <img src={logo} alt="" className={styles.logo} />
+                <img src={logo} alt="Kengmakon" className={styles.logo} />
               </div>
-              <Header
-                as="h1"
-                textAlign="center"
-                content={bootstrap.instanceName || 'PLANKA'}
-                className={styles.formTitle}
-              />
+              {bootstrap.instanceName && (
+                <Header
+                  as="h1"
+                  textAlign="center"
+                  content={bootstrap.instanceName}
+                  className={styles.formTitle}
+                />
+              )}
               <Header
                 as="h2"
                 textAlign="center"
