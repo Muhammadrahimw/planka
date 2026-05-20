@@ -12,6 +12,12 @@ import browserslistToEsbuild from 'browserslist-to-esbuild';
 
 const PROXY_TARGET = process.env.PROXY_TARGET || 'http://localhost:1337';
 
+const ALLOWED_HOSTS = process.env.ALLOWED_HOSTS
+  ? process.env.ALLOWED_HOSTS.split(',')
+      .map((host) => host.trim())
+      .filter(Boolean)
+  : undefined;
+
 // eslint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -56,6 +62,7 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    ...(ALLOWED_HOSTS ? { allowedHosts: ALLOWED_HOSTS } : {}),
     proxy: {
       '/api': PROXY_TARGET,
       '/socket.io': { target: PROXY_TARGET, ws: true },

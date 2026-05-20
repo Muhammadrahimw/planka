@@ -121,6 +121,10 @@ services:
       - PROXY_TARGET=http://planka-server:1337
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=500
+      # Comma-separated list of hostnames allowed to access the dev server (Vite
+      # blocks unknown hosts by default). Include any domain you reverse-proxy
+      # to this container, e.g. task.kmapp.uz.
+      - ALLOWED_HOSTS=task.kmapp.uz,localhost
 
   postgres:
     image: postgres:16-alpine
