@@ -20,7 +20,8 @@ import { i18n as markdownEditorI18n } from '@gravity-ui/markdown-editor/_/i18n/i
 
 import { embeddedLocales, languages } from './locales';
 
-const FALLBACK_LANGUAGE = 'uz-UZ';
+const FALLBACK_LANGUAGE = 'en-US';
+const USER_FALLBACK_LANGUAGE = 'uz-UZ';
 
 i18n.dateFns = {
   locales: {},
@@ -109,7 +110,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources: embeddedLocales,
-    fallbackLng: FALLBACK_LANGUAGE,
+    fallbackLng: [USER_FALLBACK_LANGUAGE, FALLBACK_LANGUAGE],
     supportedLngs: languages,
     load: 'currentOnly',
     detection: {
