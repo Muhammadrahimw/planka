@@ -138,13 +138,12 @@ module.exports = {
 
     if (
       user.email === sails.config.custom.defaultAdminEmail ||
-      user.isSsoUser ||
       sails.config.custom.demoMode
     ) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    if (inputs.id === currentUser.id) {
+    if (inputs.id === currentUser.id && !user.isSsoUser) {
       const isCurrentPasswordValid = await bcrypt.compare(inputs.currentPassword, user.password);
 
       if (!isCurrentPasswordValid) {

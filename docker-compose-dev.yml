@@ -39,10 +39,10 @@ services:
       - DEFAULT_LANGUAGE=uz-UZ
 
       # Do not comment out DEFAULT_ADMIN_EMAIL if you want to prevent this user from being edited/deleted
-      - DEFAULT_ADMIN_EMAIL=demo@demo.demo
-      - DEFAULT_ADMIN_PASSWORD=demo
-      - DEFAULT_ADMIN_NAME=Demo Demo
-      - DEFAULT_ADMIN_USERNAME=demo
+      - DEFAULT_ADMIN_EMAIL=muhammadrahim@gmail.com
+      - DEFAULT_ADMIN_PASSWORD=1234
+      - DEFAULT_ADMIN_NAME=muhammadrahim
+      - DEFAULT_ADMIN_USERNAME=muhammadrahim
 
       # Set to true to show more detailed authentication error messages.
       # It should not be enabled without a rate limiter for security reasons.
@@ -70,8 +70,12 @@ services:
       - OIDC_EMAIL_ATTRIBUTE=email
       - OIDC_NAME_ATTRIBUTE=name
       - OIDC_USERNAME_ATTRIBUTE=preferred_username
-      - OIDC_IGNORE_ROLES=true
-      - OIDC_DEBUG=true
+      - OIDC_ROLES_ATTRIBUTE=roles
+      - OIDC_IGNORE_ROLES=false
+      - OIDC_ADMIN_ROLES=superadmin,najmiddin
+      - OIDC_PROJECT_OWNER_ROLES=rahbar,magazinlar_rahbari,sklad_rahbari,magazin_rahbari,production_supervisor,supply_manager,kitchen_manager,workshop_foreman
+      - OIDC_BOARD_USER_ROLES=*
+      - OIDC_DEBUG=false
 
       # Email Notifications (https://nodemailer.com/smtp/)
       # These values override and disable configuration in the UI if set.

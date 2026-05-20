@@ -261,10 +261,6 @@ module.exports = {
       if (!sails.config.custom.oidcIgnoreRoles && inputs.role) {
         throw Errors.NOT_ENOUGH_RIGHTS;
       }
-
-      if (inputs.name) {
-        throw Errors.NOT_ENOUGH_RIGHTS;
-      }
     }
 
     const values = {

@@ -8,12 +8,16 @@ import { useSelector } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
+import Paths from '../../../constants/Paths';
 import Content from './Content';
 
 const Login = React.memo(() => {
   const isInitializing = useSelector(selectors.selectIsInitializing);
+  const pathname = useSelector(selectors.selectPathname);
 
-  return isInitializing ? <Loader active size="massive" /> : <Content />;
+  const isOidcCallback = pathname === Paths.OIDC_CALLBACK;
+
+  return isInitializing || isOidcCallback ? <Loader active size="massive" /> : <Content />;
 });
 
 export default Login;

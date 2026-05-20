@@ -185,7 +185,7 @@ module.exports = {
         : Errors.INVALID_CREDENTIALS;
     }
 
-    if (user.isSsoUser) {
+    if (user.isSsoUser && !user.password) {
       throw Errors.USE_SINGLE_SIGN_ON;
     }
 

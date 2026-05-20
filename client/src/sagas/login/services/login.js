@@ -67,9 +67,8 @@ export function* authenticateWithOidcCallback() {
   const nonce = window.localStorage.getItem('oidc-nonce');
   window.localStorage.removeItem('oidc-nonce');
 
-  yield put(replace(Paths.LOGIN));
-
   if (params.get('error') !== null) {
+    yield put(replace(Paths.LOGIN));
     yield put(
       actions.authenticateWithOidc.failure(
         new Error(
@@ -82,6 +81,7 @@ export function* authenticateWithOidcCallback() {
 
   const code = params.get('code');
   if (code === null) {
+    yield put(replace(Paths.LOGIN));
     yield put(
       actions.authenticateWithOidc.failure(new Error('Invalid OIDC response: no code parameter')),
     );
@@ -89,6 +89,7 @@ export function* authenticateWithOidcCallback() {
   }
 
   if (params.get('state') !== state) {
+    yield put(replace(Paths.LOGIN));
     yield put(
       actions.authenticateWithOidc.failure(
         new Error('Unable to process OIDC response: state mismatch'),
@@ -98,6 +99,7 @@ export function* authenticateWithOidcCallback() {
   }
 
   if (nonce === null) {
+    yield put(replace(Paths.LOGIN));
     yield put(
       actions.authenticateWithOidc.failure(
         new Error('Unable to process OIDC response: no nonce issued'),
@@ -109,6 +111,7 @@ export function* authenticateWithOidcCallback() {
   const oidcBootstrap = yield select(selectors.selectOidcBootstrap);
 
   if (oidcBootstrap?.debug) {
+    yield put(replace(Paths.LOGIN));
     const {
       included: { logs },
     } = yield call(api.debugOidc, {
@@ -127,6 +130,7 @@ export function* authenticateWithOidcCallback() {
       nonce,
     }));
   } catch (error) {
+    yield put(replace(Paths.LOGIN));
     let terms;
     if (error.step === AccessTokenSteps.ACCEPT_TERMS) {
       ({ item: terms } = yield call(api.getTerms, i18n.resolvedLanguage));

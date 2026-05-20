@@ -168,10 +168,7 @@ module.exports = {
     if (!isCreated) {
       values.isDeactivated = false;
 
-      const updateFieldKeys = ['email', 'name', 'isSsoUser', 'isDeactivated'];
-      if (!sails.config.custom.oidcIgnoreUsername) {
-        updateFieldKeys.push('username');
-      }
+      const updateFieldKeys = ['isSsoUser', 'isDeactivated'];
       if (!sails.config.custom.oidcIgnoreRoles) {
         updateFieldKeys.push('role');
       }

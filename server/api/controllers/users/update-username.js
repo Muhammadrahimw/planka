@@ -136,11 +136,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    if (user.isSsoUser) {
-      if (!sails.config.custom.oidcIgnoreUsername) {
-        throw Errors.NOT_ENOUGH_RIGHTS;
-      }
-    } else if (inputs.id === currentUser.id) {
+    if (inputs.id === currentUser.id && !user.isSsoUser) {
       if (!inputs.currentPassword) {
         throw Errors.INVALID_CURRENT_PASSWORD;
       }

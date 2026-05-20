@@ -90,15 +90,6 @@ const EditUserInformation = React.memo(({ id, onUpdate }) => {
         className={styles.field}
         onChange={handleFieldChange}
       />
-      <div className={styles.text}>{t('common.organization')}</div>
-      <Input
-        fluid
-        name="organization"
-        value={data.organization}
-        maxLength={128}
-        className={styles.field}
-        onChange={handleFieldChange}
-      />
       <Button positive disabled={dequal(cleanData, defaultData)} content={t('action.save')} />
     </Form>
   );
